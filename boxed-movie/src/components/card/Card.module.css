@@ -1,0 +1,39 @@
+#banner {
+  background-color: #262626;
+}
+#text {
+  color: white;
+}
+#background {
+  background-color: #262626;
+  cursor: pointer;
+}
+#background:hover {
+  transform: scale(1.09);
+  transition: ease-in;
+  transition-duration: 0.5s;
+}
+
+#text {
+  color: white;
+}
+
+#card {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: flex;
+  gap: 12px;
+}
+#card::-webkit-scrollbar {
+  display: none;
+}
+
+#p {
+  color: lightgrey;
+  font-size: x-small;
+}
+
+#span {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
