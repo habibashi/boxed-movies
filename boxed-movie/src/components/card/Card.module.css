@@ -1,31 +1,14 @@
-#banner {
-  background-color: #262626;
-}
 #text {
   color: white;
 }
-#background {
+#card {
   background-color: #262626;
   cursor: pointer;
 }
-#background:hover {
+#card:hover {
   transform: scale(1.09);
   transition: ease-in;
   transition-duration: 0.5s;
-}
-
-#text {
-  color: white;
-}
-
-#card {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  display: flex;
-  gap: 12px;
-}
-#card::-webkit-scrollbar {
-  display: none;
 }
 
 #p {

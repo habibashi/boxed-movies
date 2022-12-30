@@ -10,7 +10,7 @@ const NavBar = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <form className="d-flex" role="search">
-                        <input id={classes.background} style={{ width: "650px" }} className="form-control ms-5 me-2 w-5" type="search" placeholder="Search..." aria-label="Search" />
+                        <input id={classes.search} className="form-control ms-5 me-2 w-5" type="search" placeholder="Search..." aria-label="Search" />
                     </form>
                 </div>
             </div>
