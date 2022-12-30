@@ -1,6 +1,6 @@
 import classes from "./Card.module.css"
 
-const Card = ({ id, name, rate, vote, image, date }) => {
+const Card = ({ name, rate, vote, image, date }) => {
     return (
         <div>
             <div className="card" style={{ width: '11rem' }} id={classes.background}>
