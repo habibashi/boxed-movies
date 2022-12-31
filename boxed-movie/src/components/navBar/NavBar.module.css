@@ -3,5 +3,7 @@
 }
 #search {
   background-color: #262626;
-  width: 38vh;
+  /* width: 300px; */
+  color: white;
+  border: 1px solid lightgray;
 }
