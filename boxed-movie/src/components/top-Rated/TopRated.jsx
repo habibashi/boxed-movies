@@ -15,14 +15,16 @@ const TopRated = () => {
 
             const loadedShows = [];
             for (const movie of data.results) {
-                loadedShows.push({
-                    id: movie.id,
-                    name: movie.name.slice(0, 13),
-                    date: movie.first_air_date,
-                    rate: movie.vote_average,
-                    vote: movie.vote_count,
-                    image: movie.poster_path
-                });
+                if (movie.poster_path !== null) {
+                    loadedShows.push({
+                        id: movie.id,
+                        name: movie.name.slice(0, 13),
+                        date: movie.first_air_date,
+                        rate: movie.vote_average,
+                        vote: movie.vote_count,
+                        image: movie.poster_path
+                    });
+                }
             };
             setShows(loadedShows);
         }
@@ -35,7 +37,7 @@ const TopRated = () => {
             <div className="rounded-1 p-2" id={classes.banner}>
                 <span className='p-2' id={classes.text}><i style={{ color: 'gold' }} className="bi bi-star-fill"></i> Top Rated</span>
             </div>
-            <div id={classes.card} className='d-flex my-3 py-3'>
+            <div id={classes.card} className='d-flex  mb-3 mt-1 py-3'>
                 {shows.map((show) => (
                     <Card
                         key={show.id}
