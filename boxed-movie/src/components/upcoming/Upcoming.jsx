@@ -1,18 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Card from '../card/Card';
+import { useNavigate } from 'react-router-dom';
+import useHttp from '../../hooks/useHttp';
 import classes from '../top-Rated/TopRated.module.css';
 
 const Upcoming = () => {
     const [shows, setShows] = useState([]);
+    const navigate = useNavigate();
+
+    const { getRequest: getUpcoming } = useHttp();
 
     useEffect(() => {
-        const getUpcoming = async () => {
-            const response = await fetch("https://api.themoviedb.org/3/movie/upcoming?api_key=87c5413076a3b5fe9972da817ec29abe");
-            if (!response.ok) {
-                throw new Error('request Failed!');
-            }
-            const data = await response.json();
-
+        const transformTasks = (data) => {
             const loadedShows = [];
             for (const movie of data.results) {
                 if (movie.poster_path !== null) {
@@ -27,9 +26,12 @@ const Upcoming = () => {
                 }
             };
             setShows(loadedShows);
-        }
-        getUpcoming();
-    }, []);
+        };
+        getUpcoming(
+            { url: "https://api.themoviedb.org/3/movie/upcoming?api_key=87c5413076a3b5fe9972da817ec29abe" },
+            transformTasks
+        );
+    }, [getUpcoming]);
 
     return (
         <div className="pt-1 px-4">
@@ -39,8 +41,8 @@ const Upcoming = () => {
             <div id={classes.card} className='d-flex  mb-3 mt-1 py-3'>
                 {shows.map((show) => (
                     <Card
+                        onClick={() => navigate(`/view/${show.id}`)}
                         key={show.id}
-                        id={show.id}
                         name={show.name}
                         rate={show.rate}
                         vote={show.vote}

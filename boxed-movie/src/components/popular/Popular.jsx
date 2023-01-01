@@ -1,18 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import useHttp from '../../hooks/useHttp';
 import Card from '../card/Card';
 import classes from '../top-Rated/TopRated.module.css';
 
 const Popular = () => {
     const [shows, setShows] = useState([]);
 
-    useEffect(() => {
-        const getPopular = async () => {
-            const response = await fetch("https://api.themoviedb.org/3/tv/popular?api_key=87c5413076a3b5fe9972da817ec29abe");
-            if (!response.ok) {
-                throw new Error('request Failed!');
-            }
-            const data = await response.json();
+    const { getRequest: getPopular } = useHttp();
 
+    useEffect(() => {
+        const transformTasks = (data) => {
             const loadedShows = [];
             for (const movie of data.results) {
                 if (movie.poster_path !== null) {
@@ -27,9 +24,13 @@ const Popular = () => {
                 }
             };
             setShows(loadedShows);
-        }
-        getPopular();
-    }, []);
+        };
+
+        getPopular(
+            { url: "https://api.themoviedb.org/3/tv/popular?api_key=87c5413076a3b5fe9972da817ec29abe" },
+            transformTasks
+        );
+    }, [getPopular]);
 
 
     return (
@@ -40,8 +41,8 @@ const Popular = () => {
             <div id={classes.card} className='d-flex mb-3 mt-1 py-3'>
                 {shows.map((show) => (
                     <Card
-                        key={show.id}
                         id={show.id}
+                        key={show.id}
                         name={show.name}
                         rate={show.rate}
                         vote={show.vote}
@@ -49,8 +50,6 @@ const Popular = () => {
                         date={show.date}
                     />
                 ))}
-
-
             </div>
         </div>
     )

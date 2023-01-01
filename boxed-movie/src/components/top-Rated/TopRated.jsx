@@ -1,18 +1,17 @@
 import classes from './TopRated.module.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useHttp from '../../hooks/useHttp';
 import Card from '../card/Card';
 
 const TopRated = () => {
     const [shows, setShows] = useState([]);
+    const navigate = useNavigate();
+
+    const { getRequest: getTopRated } = useHttp();
 
     useEffect(() => {
-        const getTopRated = async () => {
-            const response = await fetch("https://api.themoviedb.org/3/tv/top_rated?api_key=87c5413076a3b5fe9972da817ec29abe");
-            if (!response.ok) {
-                throw new Error('request Failed!');
-            }
-            const data = await response.json();
-
+        const transformTasks = (data) => {
             const loadedShows = [];
             for (const movie of data.results) {
                 if (movie.poster_path !== null) {
@@ -27,9 +26,12 @@ const TopRated = () => {
                 }
             };
             setShows(loadedShows);
-        }
-        getTopRated();
-    }, []);
+        };
+        getTopRated(
+            { url: "https://api.themoviedb.org/3/tv/top_rated?api_key=87c5413076a3b5fe9972da817ec29abe" },
+            transformTasks
+        );
+    }, [getTopRated]);
 
 
     return (
@@ -40,8 +42,8 @@ const TopRated = () => {
             <div id={classes.card} className='d-flex  mb-3 mt-1 py-3'>
                 {shows.map((show) => (
                     <Card
+                        onClick={() => navigate(`/view/${show.id}`)}
                         key={show.id}
-                        id={show.id}
                         name={show.name}
                         rate={show.rate}
                         vote={show.vote}
