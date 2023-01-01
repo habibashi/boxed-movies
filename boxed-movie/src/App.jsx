@@ -1,23 +1,21 @@
-import { useContext } from 'react';
-import './App.css';
+import { Route, Routes, } from "react-router-dom";
 import NavBar from './components/navBar/NavBar';
-import Popular from "./components/popular/Popular";
-import SearchMovie from "./components/search/SearchMovie";
-import TopRated from "./components/top-Rated/TopRated";
-import SearchContext from './store/Search-provider';
-import Upcoming from "./components/upcoming/Upcoming";
+import MovieShow from './pages/MovieShow';
+import NotFound from './components/not-Found/NotFound';
+import './App.css';
+import View from "./pages/View";
 
 function App() {
-  const { searchInput } = useContext(SearchContext);
 
   return (
     <>
       <div className='container-fluid m-0 p-0'>
         <NavBar />
-        {searchInput.length > 0 && <SearchMovie onSearch={searchInput} />}
-        <Popular />
-        <TopRated />
-        <Upcoming />
+        <Routes>
+          <Route path="/" element={<MovieShow />} />
+          <Route path="/view/:id" element={<View />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
     </>
   )
