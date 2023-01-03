@@ -1,6 +1,10 @@
 .image {
   background-size: cover;
-  background-position: center center;
-  height: 100vh;
+  background-position: center;
+  height: 54vh;
   width: 100%;
+}
+
+#color {
+  color: white;
 }

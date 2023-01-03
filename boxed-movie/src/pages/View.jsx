@@ -1,43 +1,58 @@
 import classes from './View.module.css';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const View = () => {
     const [singleMovie, setSingleMovie] = useState({});
+    const params = useParams();
+    console.log(params.id)
 
     useEffect(() => {
         const views = async () => {
-            const response = await fetch(`https://api.themoviedb.org/3/tv/119501?api_key=87c5413076a3b5fe9972da817ec29abe`);
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${params.id}?api_key=87c5413076a3b5fe9972da817ec29abe`);
             if (!response.ok) {
                 throw new Error('request Failed!');
             }
             const data = await response.json();
 
-            const movieDetails = [];
-            // for (const movie of data) {
-            if (data.poster_path !== null) {
-                movieDetails.push({
-                    id: data.id,
-                    name: data.name,
-                    view: data.overview,
-                    vote: data.vote_count * 10,
-                    image: data.backdrop_path
-                });
+            const datas = [];
+            for (const name of data.genres) {
+                datas.push(name.name);
             }
-            // };
+
+            let movieDetails = {
+                id: data.id,
+                name: data.title,
+                view: data.overview,
+                image: data.backdrop_path,
+                rate: data.vote_average,
+                vote: data.vote_count,
+                date: data.release_date,
+            };
             setSingleMovie(movieDetails);
-        }
+            console.log(datas)
+        };
         views();
     }, []);
     console.log(singleMovie)
 
     return (
-        <div
-            className={`border ${classes.image}`}
-            style={{
-                backgroundImage: `url('https://image.tmdb.org/t/p/original//9PFonBhy4cQy7Jz20NpMygczOkv.jpg'}`,
-            }}
-        >
-        </div>
+        <>
+            <div>
+                <img className={classes.image}
+                    src={`https://image.tmdb.org/t/p/original/${singleMovie.image}`} alt={singleMovie.name} />
+            </div>
+            <div className='p-3'>
+                <h2 id={classes.color}>{singleMovie.name}</h2>
+                <div className='d-flex gap-2'>
+                    <i style={{ color: 'gold' }} className="bi bi-star-fill"></i>
+                    <p id={classes.color}>{singleMovie.rate} • {singleMovie.vote} votes • {singleMovie.date}</p>
+                </div>
+                <div style={{ maxWidth: '1100px' }}>
+                    <p id={classes.color}><strong>Overview: </strong> {singleMovie.view}</p>
+                </div>
+            </div>
+        </>
     )
 };
 
