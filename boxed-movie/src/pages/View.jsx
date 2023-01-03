@@ -54,7 +54,7 @@ const View = () => {
                     <p id={classes.color}><strong>Genres: </strong>{singleMovie.genres}</p>
                 </div>
                 <div>
-                    <p id={classes.color}><strong>Runtime: </strong>{singleMovie.runtime}</p>
+                    <p id={classes.color}><strong>Runtime: </strong>{singleMovie.runtime} min</p>
                 </div>
             </div>
         </>
