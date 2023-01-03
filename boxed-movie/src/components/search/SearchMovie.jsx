@@ -42,7 +42,7 @@ const SearchMovie = ({ onSearch }) => {
             <div id={classes.card} className='d-flex  mb-3 mt-1 py-3'>
                 {shows.map((show) => (
                     <Card
-                        onClick={() => navigate(`/view/${show.id}`)}
+                        id={show.id}
                         key={show.id}
                         name={show.name}
                         rate={show.rate}

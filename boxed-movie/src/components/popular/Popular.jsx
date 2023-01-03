@@ -15,8 +15,8 @@ const Popular = () => {
                 if (movie.poster_path !== null) {
                     loadedShows.push({
                         id: movie.id,
-                        name: movie.name.slice(0, 13),
-                        date: movie.first_air_date,
+                        name: movie.title.slice(0, 13),
+                        date: movie.release_date,
                         rate: movie.vote_average,
                         vote: movie.vote_count,
                         image: movie.poster_path
@@ -27,7 +27,7 @@ const Popular = () => {
         };
 
         getPopular(
-            { url: "https://api.themoviedb.org/3/tv/popular?api_key=87c5413076a3b5fe9972da817ec29abe" },
+            { url: "https://api.themoviedb.org/3/movie/popular?api_key=87c5413076a3b5fe9972da817ec29abe" },
             transformTasks
         );
     }, [getPopular]);
