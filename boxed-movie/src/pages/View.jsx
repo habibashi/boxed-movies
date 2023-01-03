@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 const View = () => {
     const [singleMovie, setSingleMovie] = useState({});
     const params = useParams();
-    console.log(params.id)
 
     useEffect(() => {
         const views = async () => {
@@ -15,9 +14,9 @@ const View = () => {
             }
             const data = await response.json();
 
-            const datas = [];
-            for (const name of data.genres) {
-                datas.push(name.name);
+            const genresData = [];
+            for (const nameGenres of data.genres) {
+                genresData.push(nameGenres.name, ", ");
             }
 
             let movieDetails = {
@@ -28,13 +27,13 @@ const View = () => {
                 rate: data.vote_average,
                 vote: data.vote_count,
                 date: data.release_date,
+                genres: [...genresData],
+                runtime: data.runtime
             };
             setSingleMovie(movieDetails);
-            console.log(datas)
         };
         views();
-    }, []);
-    console.log(singleMovie)
+    }, [params.id]);
 
     return (
         <>
@@ -48,8 +47,14 @@ const View = () => {
                     <i style={{ color: 'gold' }} className="bi bi-star-fill"></i>
                     <p id={classes.color}>{singleMovie.rate} • {singleMovie.vote} votes • {singleMovie.date}</p>
                 </div>
-                <div style={{ maxWidth: '1100px' }}>
+                <div style={{ maxWidth: '700px' }}>
                     <p id={classes.color}><strong>Overview: </strong> {singleMovie.view}</p>
+                </div>
+                <div>
+                    <p id={classes.color}><strong>Genres: </strong>{singleMovie.genres}</p>
+                </div>
+                <div>
+                    <p id={classes.color}><strong>Runtime: </strong>{singleMovie.runtime}</p>
                 </div>
             </div>
         </>
