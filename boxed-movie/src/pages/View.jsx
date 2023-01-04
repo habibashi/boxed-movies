@@ -1,19 +1,16 @@
 import classes from './View.module.css';
 import { useParams } from 'react-router-dom';
+import useHttp from '../hooks/useHttp';
 import { useEffect, useState } from 'react';
 
 const View = () => {
     const [singleMovie, setSingleMovie] = useState({});
     const params = useParams();
 
-    useEffect(() => {
-        const views = async () => {
-            const response = await fetch(`https://api.themoviedb.org/3/movie/${params.id}?api_key=87c5413076a3b5fe9972da817ec29abe`);
-            if (!response.ok) {
-                throw new Error('request Failed!');
-            }
-            const data = await response.json();
+    const { getRequest: getSingleDetails } = useHttp();
 
+    useEffect(() => {
+        const transformTasks = (data) => {
             const genresData = [];
             for (const nameGenres of data.genres) {
                 genresData.push(nameGenres.name, ", ");
@@ -32,8 +29,12 @@ const View = () => {
             };
             setSingleMovie(movieDetails);
         };
-        views();
-    }, [params.id]);
+
+        getSingleDetails(
+            { url: `https://api.themoviedb.org/3/movie/${params.id}?api_key=87c5413076a3b5fe9972da817ec29abe` },
+            transformTasks
+        );
+    }, [getSingleDetails, params.id]);
 
     return (
         <>
